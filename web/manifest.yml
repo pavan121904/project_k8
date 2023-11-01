@@ -8,17 +8,17 @@ metadata:
 spec:
   containers:
     - name: web
-      imagepullpolicy: always
+      imagePullPolicy: Always  # Corrected the field name
       image: pavanreddy1219/web:k8
       resources:
-      requests:
-        memory: "100Mi"
-        cpu: "250m"
-      limits:
-        memory: "200Mi"
-        cpu: "500m"
+        requests:
+          memory: "100Mi"
+          cpu: "250m"
+        limits:
+          memory: "200Mi"
+          cpu: "500m"
       ports:
-      - containerPort: 80  # Corrected the field name
+        - containerPort: 80
 
 ---
 apiVersion: v1
