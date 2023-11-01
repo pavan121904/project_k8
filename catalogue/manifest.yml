@@ -1,4 +1,11 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalogue-configmap  # Replace with your desired name
+data:
+  MONGO_URL: "mongodb://mongodb:27017/catalogue"  # Added quotes around the URL
+---
+apiVersion: v1
 kind: Pod
 metadata:
   name: catalogue
@@ -8,8 +15,11 @@ metadata:
 spec:
   containers:
     - name: catalogue
-      imagePullPolicy: Always  # Corrected the field name and indentation
+      imagePullPolicy: Always
       image: pavanreddy1219/catalogue:k8
+      envFrom:  # Corrected the field name
+        - configMapRef:  # Corrected the field name
+            name: catalogue-configmap
       resources:
         requests:
           memory: "100Mi"
@@ -17,12 +27,11 @@ spec:
         limits:
           memory: "200Mi"
           cpu: "500m"
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: catalogue-service
+  name: catalogue
 spec:
   selector:
     tier: app
