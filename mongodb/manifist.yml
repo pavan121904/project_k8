@@ -8,7 +8,6 @@ metadata:
 spec:
   containers:
     - name: mongodb
-      imagePullPolicy: Always
       image: pavanreddy1219/mongodb:v1
       resources:
         requests:
