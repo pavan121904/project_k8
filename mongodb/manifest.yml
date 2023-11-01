@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
     - name: mongodb
-      image: pavanreddy1219/mongodb:v1
+      image: pavanreddy1219/mongodb:k8
       resources:
         requests:
           memory: "100Mi"
