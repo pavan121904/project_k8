@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  MYSQL_DATABASE: "cities"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secrets
+type: Opaque
+data:
+  MYSQL_USER: c2hpcHBpbmc=  # base64-encoded value of "shipping"
+  MYSQL_PASSWORD: c2VjcmV0  # base64-encoded value of "secret"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  labels:
+    tier: backend
+    name: mysql
+spec:
+  containers:
+    - name: mysql
+      image: pavanreddy1219/mysql:k8
+      resources:
+        requests:
+          memory: "100Mi"
+          cpu: "250m"
+        limits:
+          memory: "200Mi"
+          cpu: "500m"
+      ports:
+        - containerPort: 3306
+      env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-config
+              key: MYSQL_ALLOW_EMPTY_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-config
+              key: MYSQL_DATABASE
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: MYSQL_PASSWORD
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+    tier: backend
+    name: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
