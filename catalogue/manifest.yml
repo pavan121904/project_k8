@@ -9,7 +9,7 @@ spec:
   containers:
     - name: catalogue
       imagePullPolicy: Always  # Corrected the field name and indentation
-      image: pavanreddy1219/catalogue:v1
+      image: pavanreddy1219/catalogue:k8
       resources:
         requests:
           memory: "100Mi"
