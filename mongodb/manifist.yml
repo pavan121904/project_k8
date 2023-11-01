@@ -3,21 +3,21 @@ kind: Pod
 metadata:
   name: mongodb
   labels:
-    tier: frontend
+    tier: backend
     name: mongodb
 spec:
   containers:
     - name: mongodb
-      imagepullpolicy: always
+      imagePullPolicy: Always
       image: pavanreddy1219/mongodb:v1
       resources:
-      requests:
-        memory: "100Mi"
-        cpu: "250m"
-      limits:
-        memory: "200Mi"
-        cpu: "500m"
-    
+        requests:
+          memory: "100Mi"
+          cpu: "250m"
+        limits:
+          memory: "200Mi"
+          cpu: "500m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -25,8 +25,8 @@ metadata:
   name: mongodb-service
 spec:
   selector:
-      tier: frontend
-      name: mongodb
+    tier: backend
+    name: mongodb
   ports:
     - protocol: TCP
       port: 27017
