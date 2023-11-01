@@ -1,5 +1,5 @@
-apiversion: v1
-kind: pod 
+apiVersion: v1
+kind: Pod
 metadata:
   name: web
   labels:
@@ -10,7 +10,8 @@ spec:
     - name: web
       image: pavanreddy1219/web:k8
       ports:
-      - containerport: 80
+      - containerPort: 80  # Corrected the field name
+
 ---
 apiVersion: v1
 kind: Service
