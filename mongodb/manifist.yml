@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongodb
+  labels:
+    tier: frontend
+    name: mongodb
+spec:
+  containers:
+    - name: mongodb
+      imagepullpolicy: always
+      image: pavanreddy1219/mongodb:v1
+      resources:
+      requests:
+        memory: "100Mi"
+        cpu: "250m"
+      limits:
+        memory: "200Mi"
+        cpu: "500m"
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+      tier: frontend
+      name: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
