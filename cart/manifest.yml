@@ -18,7 +18,7 @@ spec:
   containers:
     - name: cart
       imagePullPolicy: Always
-      image: pavanreddy1219/ccart:k8
+      image: pavanreddy1219/cart:k8
       env:
         - name: CATALOGUE_HOST
           valueFrom:
