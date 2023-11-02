@@ -31,9 +31,12 @@ spec:
     tier: backend
     name: rabbitmq
   ports:
-    - protocol: TCP
+    - name: rabbitmq-port  # Name for the first port
+      protocol: TCP
       port: 5672  # Port for RabbitMQ
       targetPort: 5672
-    - protocol: TCP
+    - name: management-ui-port  # Name for the second port
+      protocol: TCP
       port: 15672  # Port for RabbitMQ management UI
       targetPort: 15672
+
