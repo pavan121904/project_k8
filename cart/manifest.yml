@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart-config
+data:
+  CATALOGUE_HOST: "catalogue"
+  REDIS_HOST: "redis"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cart
+  labels:
+    tier: app
+    name: cart
+spec:
+  containers:
+    - name: cart
+      imagePullPolicy: Always
+      image: pavanreddy1219/ccart:k8
+      env:
+        - name: CATALOGUE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: cart-config
+              key: CATALOGUE_HOST
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: cart-config
+              key: REDIS_HOST
+      resources:
+        requests:
+          memory: "100Mi"
+          cpu: "250m"
+        limits:
+          memory: "200Mi"
+          cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+spec:
+  selector:
+    tier: app
+    name: cart
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
